@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import {
+  SafeAreaView,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+} from "react-native";
+
+import { HomeScreen } from "./components/homeScreen";
+
+export const PersonList = () => {};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="auto" />
+        <HomeScreen />
+        <StatusBar style="auto" />
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+  },
+  title: {
+    alignItems: "flex-start",
+    fontSize: 30,
+    fontWeight: "bold",
+    margin: 5,
   },
 });
