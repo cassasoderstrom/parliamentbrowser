@@ -1,54 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  TextInput,
   View,
-  FlatList,
   Text,
+  FlatList,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
 
-import { fetchPersons } from "./ApiFetcher";
-
-export const HomeScreen = () => {
+export const SearchResultsScreen = ({ route }) => {
+  const { searchResults } = route.params;
   const navigation = useNavigation();
-  const [persons, setPersons] = useState([]);
-  const [filteredPersons, setFilteredPersons] = useState([]);
-  const [searchPersons, setSearchPersons] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    fetchPersons().then((data) => {
-      const filteredData = data.filter((person) => person.state === "1");
-      setPersons(data);
-      setFilteredPersons(filteredData);
-    });
-  }, []);
-
-  useEffect(() => {
-    filterPersons();
-  }, [searchQuery]);
-
-  const filterPersons = () => {
-    const filtered = persons.filter((person) => {
-      return person.name.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-    setSearchPersons(filtered);
-  };
-
   const handlePersonPress = (person) => {
     navigation.navigate("Details", { person });
   };
-
-  const handleSearch = () => {
-    setSearchQuery("");
-    navigation.navigate("Search Results", {
-      searchResults: searchPersons,
-    });
-  };
-
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handlePersonPress(item)}>
       <ListItem containerStyle={styles.personContainer}>
@@ -84,16 +50,9 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nuvarande Ledamöter</Text>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search for a person..."
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-        onSubmitEditing={handleSearch}
-      />
+      <Text style={styles.title}>Search Results</Text>
       <FlatList
-        data={filteredPersons}
+        data={searchResults}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -106,13 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 10,
-  },
-  searchInput: {
-    marginBottom: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    backgroundColor: "#ffffff",
   },
   personContainer: {
     flexDirection: "row",
