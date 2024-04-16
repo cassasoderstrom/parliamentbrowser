@@ -1,6 +1,6 @@
 # Parliament Browser
 
-## React Native app for browsing parlaiment members for Mobila Applikationer
+#### React Native app for browsing parlaiment members for Mobila Applikationer
 ## Functionalities:
 
 - Homescreen shows currently sitting members.
